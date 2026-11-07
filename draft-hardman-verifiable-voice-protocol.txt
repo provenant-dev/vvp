@@ -4,8 +4,8 @@
 
 Network Working Group                                         D. Hardman
 Internet-Draft                                            Provenant, Inc
-Intended status: Standards Track                          5 October 2026
-Expires: 8 April 2027
+Intended status: Standards Track                         7 November 2026
+Expires: 11 May 2027
 
 
                        Verifiable Voice Protocol
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 April 2027.
+   This Internet-Draft will expire on 11 May 2027.
 
 Copyright Notice
 
@@ -104,8 +104,9 @@ Table of Contents
      5.5.  Historical analysis
    6.  Security Considerations
      6.1.  Intermediaries that modify signaling
-     6.2.  Dereferencing OOBIs
-     6.3.  Compromised legitimate originator
+     6.2.  Displayed caller identity
+     6.3.  Dereferencing OOBIs
+     6.4.  Compromised legitimate originator
    7.  IANA Considerations
    8.  References
      8.1.  Normative References
@@ -646,7 +647,7 @@ Table of Contents
         those attributes of the call.  (A rate constraint cannot be
         evaluated from a single call; it is checkable only by a verifier
         that observes many calls signed by the same kid, and by the OP
-        itself before signing.  See Section 6.3.)
+        itself before signing.  See Section 6.4.)
 
 5.2.  Verifying the callee
 
@@ -798,15 +799,19 @@ Table of Contents
    Normally, a verification algorithm determines whether the passport
    verifies _now_. (This is the only evaluation that's valid for most
    JWTs, because they depend on ephemeral key state fetched just in time
-   from x5u).  However, a VVP passport can do more.  Its kid header
-   references a KEL for the signer's AID ([TOIP-KERI]), and its evd
-   header references a dossier issued by either the AID of the AP or the
-   AID of the callee.  Thence it connects to a KEL ([TOIP-KERI]).  These
-   data structures provide key state transitions that are timestamped --
-   both by the controllers of the AIDs, and by their independent
-   witnesses.  Although the timestamps are not guaranteed to be
-   perfectly synchronized, they can be compared to establish rough
-   transition times and to detect duplicity.
+   from x5u.  A measurement of a year of SHAKEN traffic found that 11%
+   of x5u URLs already returned no certificate, and showed that a signer
+   can defeat later verification of its own passports simply by removing
+   the certificate after the call [BROWN-STIR-SHAKEN].)  However, a VVP
+   passport can do more.  Its kid header references a KEL for the
+   signer's AID ([TOIP-KERI]), and its evd header references a dossier
+   issued by either the AID of the AP or the AID of the callee.  Thence
+   it connects to a KEL ([TOIP-KERI]).  These data structures provide
+   key state transitions that are timestamped -- both by the controllers
+   of the AIDs, and by their independent witnesses.  Although the
+   timestamps are not guaranteed to be perfectly synchronized, they can
+   be compared to establish rough transition times and to detect
+   duplicity.
 
    Using this historical information, it becomes possible to ask whether
    a VVP passport would have verified at an arbitrary moment in the
@@ -910,7 +915,29 @@ Table of Contents
    the request-based transport described in Section 4.2 over the SDP
    attribute for the same reason.
 
-6.2.  Dereferencing OOBIs
+6.2.  Displayed caller identity
+
+   A SIP INVITE can carry the calling number in more than one header,
+   most importantly From and P-Asserted-Identity, and the two can
+   disagree.  In SHAKEN, the passport is validated against P-Asserted-
+   Identity, while many handsets display From.  A caller can therefore
+   place a call with a number it legitimately controls in P-Asserted-
+   Identity and an impersonated number in From; every cryptographic
+   check succeeds, and the callee sees the impersonated number beside a
+   positive verification indicator.  This has been demonstrated on
+   deployed networks and enterprise handsets [BROWN-STIR-SHAKEN].
+
+   VVP is exposed to the same attack, because a valid passport for orig
+   says nothing about other headers.  Verifiers MUST confirm that orig
+   matches every header that carries a calling number, including both
+   From and P-Asserted-Identity, and MUST treat any disagreement as a
+   channel-binding mismatch, which makes the outcome failed
+   (Section 5.3).  A TSP or device that renders a VVP outcome to the
+   callee MUST display, as the calling number, exactly the value that
+   was checked against orig.  If it cannot establish which number was
+   checked, it MUST NOT display a positive verification indicator.
+
+6.3.  Dereferencing OOBIs
 
    The kid and evd values of a passport are URLs chosen by whoever built
    the passport, and a verifier dereferences them before it knows
@@ -948,7 +975,7 @@ Table of Contents
    SAID.  A malicious server can therefore cause delay or failure, but
    cannot cause forged evidence to verify.
 
-6.3.  Compromised legitimate originator
+6.4.  Compromised legitimate originator
 
    A common form of toll fraud does not rely on a fake system.  Instead,
    the attacker takes over a genuine PBX or SBC and routes calls through
@@ -1085,6 +1112,13 @@ Table of Contents
               Hardman, D., "Aries RFC 0519: Goal Codes", April 2021,
               <https://github.com/hyperledger/aries-rfcs/blob/main/
               concepts/0519-goal-codes/README.md>.
+
+   [BROWN-STIR-SHAKEN]
+              Brown, J., Hardeman, M., and P. Grubbs, "STIR/SHAKEN: A
+              Cocktail of Cryptographic Clumsiness",
+              DOI 10.1109/SP63933.2026.00093, 2026,
+              <https://eprint.iacr.org/2026/2772>.  IEEE Symposium on
+              Security and Privacy (S&P) 2026
 
    [CTIA-BCID]
               CTIA, "Branded Calling ID Best Practices", November 2022,

@@ -9,7 +9,7 @@
 <meta content="
        Verifiable Voice Protocol (VVP) authenticates and authorizes organizations and individuals making and/or receiving telephone calls. This eliminates trust gaps that malicious parties exploit. Like related technologies such as SHAKEN, RCD, and BCID, VVP uses STIR to bind cryptographic evidence to a SIP INVITE, and verify this evidence downstream. VVP can also let evidence flow the other way, proving things about the callee. VVP builds from different technical and governance assumptions than alternatives, and uses richer, stronger evidence. This allows VVP to cross jurisdictional boundaries easily and robustly. It also makes VVP simpler, more decentralized, cheaper to deploy and maintain, more private, more scalable, and higher assurance. Because it is easier to adopt, VVP can plug gaps or build bridges between other approaches, functioning as glue in hybrid ecosystems. For example, it may justify an A attestation in SHAKEN, or an RCD passport for branded calling, when a call originates outside SHAKEN or RCD ecosystems. VVP also works well as a standalone mechanism, independent of other solutions. An extra benefit is that VVP enables two-way evidence sharing with verifiable text and chat (e.g., RCS and vCon), as well as with other industry verticals that need verifiability in non-telco contexts. 
     " name="description">
-<meta content="xml2rfc 3.34.1" name="generator">
+<meta content="xml2rfc 3.35.0" name="generator">
 <meta content="voip" name="keyword">
 <meta content="telecom" name="keyword">
 <meta content="telco" name="keyword">
@@ -18,19 +18,19 @@
 <meta content="KYC" name="keyword">
 <meta content="draft-hardman-verifiable-voice-protocol-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.34.1
-    Python 3.14.8
-    ConfigArgParse 1.8.0
+  xml2rfc 3.35.0
+    Python 3.14.10
+    ConfigArgParse 1.9.0
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.12.2
+    platformdirs 4.14.3
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
-    wcwidth 0.9.1
+    wcwidth 0.9.4
 -->
 <link href="draft-hardman-verifiable-voice-protocol.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -1031,7 +1031,7 @@ svg {
   & :is([stroke="white"], [stroke^="#fff"]) {
     stroke: var(--background-color);
   }
-  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+  & :is([fill="black"], [fill^="#000"], :not([fill], [fill] *)) {
     fill: var(--text-color);
   }
   & :is([fill="white"], [fill^="#fff"]) {
@@ -1046,11 +1046,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">VVP</td>
-<td class="right">October 2026</td>
+<td class="right">November 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Hardman</td>
-<td class="center">Expires 8 April 2027</td>
+<td class="center">Expires 11 May 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1063,12 +1063,12 @@ svg {
 <dd class="internet-draft">draft-hardman-verifiable-voice-protocol-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-10-05" class="published">5 October 2026</time>
+<time datetime="2026-11-07" class="published">7 November 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-04-08">8 April 2027</time></dd>
+<dd class="expires"><time datetime="2027-05-11">11 May 2027</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1113,7 +1113,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 April 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 11 May 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1227,10 +1227,13 @@ svg {
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-intermediaries-that-modify-" class="internal xref">Intermediaries that modify signaling</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-dereferencing-oobis" class="internal xref">Dereferencing OOBIs</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-displayed-caller-identity" class="internal xref">Displayed caller identity</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-compromised-legitimate-orig" class="internal xref">Compromised legitimate originator</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-dereferencing-oobis" class="internal xref">Dereferencing OOBIs</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-compromised-legitimate-orig" class="internal xref">Compromised legitimate originator</a></p>
 </li>
             </ul>
 </li>
@@ -1590,7 +1593,7 @@ Validation also includes comparing data structure and values against the declare
               <p id="section-5.1.1-2.12.1">If the passport includes non-null values for the optional <code>card</code> claim, extract that information and check that the brand attributes claimed for the call are justified by a brand credential in the dossier.<a href="#section-5.1.1-2.12.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.1.1-2.13">
-              <p id="section-5.1.1-2.13.1">Check any business logic. For example, if the passport includes a non-null value for the optional <code>goal</code> claim, confirm that the verifier is willing to accept a call with that goal. Or, if the delegated signer credential says that the OP can only call on behalf of the AP during certain hours, in certain geos, to certain destinations (e.g., country codes or number prefixes, checked against <code>dest</code>), or at no more than a certain rate, check those attributes of the call. (A rate constraint cannot be evaluated from a single call; it is checkable only by a verifier that observes many calls signed by the same <code>kid</code>, and by the OP itself before signing. See <a href="#compromised-op" class="auto internal xref">Section 6.3</a>.)<a href="#section-5.1.1-2.13.1" class="pilcrow">¶</a></p>
+              <p id="section-5.1.1-2.13.1">Check any business logic. For example, if the passport includes a non-null value for the optional <code>goal</code> claim, confirm that the verifier is willing to accept a call with that goal. Or, if the delegated signer credential says that the OP can only call on behalf of the AP during certain hours, in certain geos, to certain destinations (e.g., country codes or number prefixes, checked against <code>dest</code>), or at no more than a certain rate, check those attributes of the call. (A rate constraint cannot be evaluated from a single call; it is checkable only by a verifier that observes many calls signed by the same <code>kid</code>, and by the OP itself before signing. See <a href="#compromised-op" class="auto internal xref">Section 6.4</a>.)<a href="#section-5.1.1-2.13.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
 </section>
@@ -1696,7 +1699,7 @@ Validation also includes comparing data structure and values against the declare
         <h3 id="name-historical-analysis">
 <a href="#section-5.5" class="section-number selfRef">5.5. </a><a href="#name-historical-analysis" class="section-name selfRef">Historical analysis</a>
         </h3>
-<p id="section-5.5-1">Normally, a verification algorithm determines whether the passport verifies <em>now</em>. (This is the only evaluation that's valid for most JWTs, because they depend on ephemeral key state fetched just in time from <code>x5u</code>). However, a VVP passport can do more. Its <code>kid</code> header references a KEL for the signer's AID (<span>[<a href="#TOIP-KERI" class="cite xref">TOIP-KERI</a>]</span>), and its <code>evd</code> header references a dossier issued by either the AID of the AP or the AID of the callee. Thence it connects to a KEL (<span>[<a href="#TOIP-KERI" class="cite xref">TOIP-KERI</a>]</span>). These data structures provide key state transitions that are timestamped -- both by the controllers of the AIDs, and by their independent witnesses. Although the timestamps are not guaranteed to be perfectly synchronized, they can be compared to establish rough transition times and to detect duplicity.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.5-1">Normally, a verification algorithm determines whether the passport verifies <em>now</em>. (This is the only evaluation that's valid for most JWTs, because they depend on ephemeral key state fetched just in time from <code>x5u</code>. A measurement of a year of SHAKEN traffic found that 11% of <code>x5u</code> URLs already returned no certificate, and showed that a signer can defeat later verification of its own passports simply by removing the certificate after the call <span>[<a href="#BROWN-STIR-SHAKEN" class="cite xref">BROWN-STIR-SHAKEN</a>]</span>.) However, a VVP passport can do more. Its <code>kid</code> header references a KEL for the signer's AID (<span>[<a href="#TOIP-KERI" class="cite xref">TOIP-KERI</a>]</span>), and its <code>evd</code> header references a dossier issued by either the AID of the AP or the AID of the callee. Thence it connects to a KEL (<span>[<a href="#TOIP-KERI" class="cite xref">TOIP-KERI</a>]</span>). These data structures provide key state transitions that are timestamped -- both by the controllers of the AIDs, and by their independent witnesses. Although the timestamps are not guaranteed to be perfectly synchronized, they can be compared to establish rough transition times and to detect duplicity.<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <p id="section-5.5-2">Using this historical information, it becomes possible to ask whether a VVP passport would have verified at an arbitrary moment in the past. In such framings, the reference time from the verification algorithm is <em>then</em>, not <em>now</em>. In the normal case where <em>then</em> falls outside a fuzzy range, answers about key state are clear to all observers. In the rare cases where <em>then</em> falls inside a fuzzy range, a state transition was underway but not yet universally known, and a verifier can compute the key state (and thence, the outcome of the verification algorithm) according to their preferred interpretation.<a href="#section-5.5-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1761,42 +1764,51 @@ Validation also includes comparing data structure and values against the declare
 <p id="section-6.1-1">SBCs and B2BUAs along the call route may strip or fail to forward <code>Identity</code> headers, and commonly regenerate SDP bodies. An attacker who controls such an intermediary can suppress a VVP passport, downgrading the call from verified (or failed) to absent. VVP cannot prevent this, but the distinction between absent and failed outcomes (<a href="#outcomes" class="auto internal xref">Section 5.3</a>) means that suppression can only lower assurance; it cannot make a forged passport verify. Deployments that need end-to-end VVP assurance <span class="bcp14">SHOULD</span> make preservation of <code>Identity</code> headers a condition of their interconnect agreements. Callees <span class="bcp14">SHOULD</span> prefer the request-based transport described in <a href="#callee-citing" class="auto internal xref">Section 4.2</a> over the SDP attribute for the same reason.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="dereferencing-oobis">
+<div id="displayed-caller-identity">
 <section id="section-6.2">
-        <h3 id="name-dereferencing-oobis">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-dereferencing-oobis" class="section-name selfRef">Dereferencing OOBIs</a>
+        <h3 id="name-displayed-caller-identity">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-displayed-caller-identity" class="section-name selfRef">Displayed caller identity</a>
         </h3>
-<p id="section-6.2-1">The <code>kid</code> and <code>evd</code> values of a passport are URLs chosen by whoever built the passport, and a verifier dereferences them before it knows whether the passport is genuine. A verifier that fetches them naively, on every call, exposes itself and others to several attacks:<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">A SIP INVITE can carry the calling number in more than one header, most importantly <code>From</code> and <code>P-Asserted-Identity</code>, and the two can disagree. In SHAKEN, the passport is validated against <code>P-Asserted-Identity</code>, while many handsets display <code>From</code>. A caller can therefore place a call with a number it legitimately controls in <code>P-Asserted-Identity</code> and an impersonated number in <code>From</code>; every cryptographic check succeeds, and the callee sees the impersonated number beside a positive verification indicator. This has been demonstrated on deployed networks and enterprise handsets <span>[<a href="#BROWN-STIR-SHAKEN" class="cite xref">BROWN-STIR-SHAKEN</a>]</span>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">VVP is exposed to the same attack, because a valid passport for <code>orig</code> says nothing about other headers. Verifiers <span class="bcp14">MUST</span> confirm that <code>orig</code> matches every header that carries a calling number, including both <code>From</code> and <code>P-Asserted-Identity</code>, and <span class="bcp14">MUST</span> treat any disagreement as a channel-binding mismatch, which makes the outcome failed (<a href="#outcomes" class="auto internal xref">Section 5.3</a>). A TSP or device that renders a VVP outcome to the callee <span class="bcp14">MUST</span> display, as the calling number, exactly the value that was checked against <code>orig</code>. If it cannot establish which number was checked, it <span class="bcp14">MUST NOT</span> display a positive verification indicator.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="dereferencing-oobis">
+<section id="section-6.3">
+        <h3 id="name-dereferencing-oobis">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-dereferencing-oobis" class="section-name selfRef">Dereferencing OOBIs</a>
+        </h3>
+<p id="section-6.3-1">The <code>kid</code> and <code>evd</code> values of a passport are URLs chosen by whoever built the passport, and a verifier dereferences them before it knows whether the passport is genuine. A verifier that fetches them naively, on every call, exposes itself and others to several attacks:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.2-2.1">
-            <p id="section-6.2-2.1.1">Server-side request forgery. A passport can point <code>kid</code> or <code>evd</code> at an internal service on the verifier's network. Verifiers <span class="bcp14">MUST</span> only dereference <code>https</code> URLs, and <span class="bcp14">MUST</span> refuse to connect to loopback, link-local, and private address ranges (checked after DNS resolution, and again after any redirect) unless local policy explicitly allows a particular internal host. Verifiers <span class="bcp14">SHOULD</span> limit the number of redirects they follow, the size of responses they accept, and the time they spend on each fetch.<a href="#section-6.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.3-2.1">
+            <p id="section-6.3-2.1.1">Server-side request forgery. A passport can point <code>kid</code> or <code>evd</code> at an internal service on the verifier's network. Verifiers <span class="bcp14">MUST</span> only dereference <code>https</code> URLs, and <span class="bcp14">MUST</span> refuse to connect to loopback, link-local, and private address ranges (checked after DNS resolution, and again after any redirect) unless local policy explicitly allows a particular internal host. Verifiers <span class="bcp14">SHOULD</span> limit the number of redirects they follow, the size of responses they accept, and the time they spend on each fetch.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.2-2.2">
-            <p id="section-6.2-2.2.1">Reflection and amplification. An attacker can place many calls whose passports point at a victim's web server, so that verifiers along the route generate traffic against it. Verifiers <span class="bcp14">SHOULD</span> rate-limit fetches per host, and <span class="bcp14">SHOULD</span> cache failed fetches for a short period so that repeated calls citing the same unreachable URL do not each trigger a new fetch.<a href="#section-6.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.3-2.2">
+            <p id="section-6.3-2.2.1">Reflection and amplification. An attacker can place many calls whose passports point at a victim's web server, so that verifiers along the route generate traffic against it. Verifiers <span class="bcp14">SHOULD</span> rate-limit fetches per host, and <span class="bcp14">SHOULD</span> cache failed fetches for a short period so that repeated calls citing the same unreachable URL do not each trigger a new fetch.<a href="#section-6.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.2-2.3">
-            <p id="section-6.2-2.3.1">Delay. A verifier with a cold cache may need several seconds to fetch and validate a dossier, and an attacker can choose a slow server deliberately. Verifiers <span class="bcp14">SHOULD</span> set a time budget for fetching during call setup. If the budget is exhausted, the outcome is indeterminate (<a href="#outcomes" class="auto internal xref">Section 5.3</a>), and the verifier <span class="bcp14">MAY</span> complete verification asynchronously. Because dossiers are cached by SAID and are reused across many calls, this cost falls mostly on the first call that cites a given dossier; verifiers <span class="bcp14">MAY</span> also prefetch dossiers for frequent callers.<a href="#section-6.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.3-2.3">
+            <p id="section-6.3-2.3.1">Delay. A verifier with a cold cache may need several seconds to fetch and validate a dossier, and an attacker can choose a slow server deliberately. Verifiers <span class="bcp14">SHOULD</span> set a time budget for fetching during call setup. If the budget is exhausted, the outcome is indeterminate (<a href="#outcomes" class="auto internal xref">Section 5.3</a>), and the verifier <span class="bcp14">MAY</span> complete verification asynchronously. Because dossiers are cached by SAID and are reused across many calls, this cost falls mostly on the first call that cites a given dossier; verifiers <span class="bcp14">MAY</span> also prefetch dossiers for frequent callers.<a href="#section-6.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-6.2-3">Content fetched from an OOBI is self-certifying: a KEL is verified against the AID it claims to describe, and a dossier against its SAID. A malicious server can therefore cause delay or failure, but cannot cause forged evidence to verify.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Content fetched from an OOBI is self-certifying: a KEL is verified against the AID it claims to describe, and a dossier against its SAID. A malicious server can therefore cause delay or failure, but cannot cause forged evidence to verify.<a href="#section-6.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="compromised-op">
-<section id="section-6.3">
+<section id="section-6.4">
         <h3 id="name-compromised-legitimate-orig">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-compromised-legitimate-orig" class="section-name selfRef">Compromised legitimate originator</a>
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-compromised-legitimate-orig" class="section-name selfRef">Compromised legitimate originator</a>
         </h3>
-<p id="section-6.3-1">A common form of toll fraud does not rely on a fake system. Instead, the attacker takes over a genuine PBX or SBC and routes calls through it -- often in from outside and straight back out, to premium-rate or international destinations. The outbound call then carries the real identity of the compromised system. If that system is a VVP OP, its key signs the fraudulent passports, and they verify.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
-<p id="section-6.3-2">Key rotation does not address this, because the attacker uses the system to sign rather than stealing the key. VVP limits the damage in other ways, and OPs and APs <span class="bcp14">SHOULD</span> use them:<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-1">A common form of toll fraud does not rely on a fake system. Instead, the attacker takes over a genuine PBX or SBC and routes calls through it -- often in from outside and straight back out, to premium-rate or international destinations. The outbound call then carries the real identity of the compromised system. If that system is a VVP OP, its key signs the fraudulent passports, and they verify.<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">Key rotation does not address this, because the attacker uses the system to sign rather than stealing the key. VVP limits the damage in other ways, and OPs and APs <span class="bcp14">SHOULD</span> use them:<a href="#section-6.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6.3-3.1">
-            <p id="section-6.3-3.1.1">Delegated signer credentials <span class="bcp14">SHOULD</span> constrain the OP to the destinations it legitimately needs (for example, by country code or number prefix) and to a maximum call rate, in addition to any time-of-day and geographic constraints. Verifiers check destination constraints against <code>dest</code> on every call. Rate constraints can be checked by any verifier that observes aggregate traffic for a given <code>kid</code>, such as a TSP.<a href="#section-6.3-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-6.4-3.1">
+            <p id="section-6.4-3.1.1">Delegated signer credentials <span class="bcp14">SHOULD</span> constrain the OP to the destinations it legitimately needs (for example, by country code or number prefix) and to a maximum call rate, in addition to any time-of-day and geographic constraints. Verifiers check destination constraints against <code>dest</code> on every call. Rate constraints can be checked by any verifier that observes aggregate traffic for a given <code>kid</code>, such as a TSP.<a href="#section-6.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.3-3.2">
-            <p id="section-6.3-3.2.1">An OP <span class="bcp14">SHOULD</span> apply its own outbound policy before signing, refusing to sign passports for calls that its delegation would not authorize, rather than relying on downstream verifiers to catch them.<a href="#section-6.3-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-3.2">
+            <p id="section-6.4-3.2.1">An OP <span class="bcp14">SHOULD</span> apply its own outbound policy before signing, refusing to sign passports for calls that its delegation would not authorize, rather than relying on downstream verifiers to catch them.<a href="#section-6.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-6.3-3.3">
-            <p id="section-6.3-3.3.1">Each SBC or signing service <span class="bcp14">SHOULD</span> have its own AID, so that a compromise affects only the calls that pass through that service. When a compromise is detected, revoking that service's delegated signer credential stops further passports from verifying, without disturbing the AP's other delegates.<a href="#section-6.3-3.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-6.4-3.3">
+            <p id="section-6.4-3.3.1">Each SBC or signing service <span class="bcp14">SHOULD</span> have its own AID, so that a compromise affects only the calls that pass through that service. When a compromise is detected, revoking that service's delegated signer credential stops further passports from verifying, without disturbing the AP's other delegates.<a href="#section-6.4-3.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1904,6 +1916,11 @@ Validation also includes comparing data structure and values against the declare
 <dt id="ARIES-RFC-0519">[ARIES-RFC-0519]</dt>
         <dd>
 <span class="refAuthor">Hardman, D.</span>, <span class="refTitle">"Aries RFC 0519: Goal Codes"</span>, <time datetime="2021-04" class="refDate">April 2021</time>, <span>&lt;<a href="https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0519-goal-codes/README.md">https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0519-goal-codes/README.md</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="BROWN-STIR-SHAKEN">[BROWN-STIR-SHAKEN]</dt>
+        <dd>
+<span class="refAuthor">Brown, J.</span>, <span class="refAuthor">Hardeman, M.</span>, and <span class="refAuthor">P. Grubbs</span>, <span class="refTitle">"STIR/SHAKEN: A Cocktail of Cryptographic Clumsiness"</span>, <span class="seriesInfo">DOI 10.1109/SP63933.2026.00093</span>, <time datetime="2026" class="refDate">2026</time>, <span>&lt;<a href="https://eprint.iacr.org/2026/2772">https://eprint.iacr.org/2026/2772</a>&gt;</span>. <span class="annotation">IEEE Symposium on Security and Privacy (S&amp;P) 2026</span>
+        </dd>
 <dd class="break"></dd>
 <dt id="CTIA-BCID">[CTIA-BCID]</dt>
         <dd>
