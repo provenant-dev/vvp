@@ -111,6 +111,20 @@ informative:
     author:
       org: CTIA
     date: Nov 2022
+  BROWN-STIR-SHAKEN:
+    target: https://eprint.iacr.org/2026/2772
+    title: "STIR/SHAKEN: A Cocktail of Cryptographic Clumsiness"
+    author:
+      -
+        name: Joshua Brown
+      -
+        name: Matthew Hardeman
+      -
+        name: Paul Grubbs
+    seriesinfo:
+      DOI: 10.1109/SP63933.2026.00093
+    date: 2026
+    annotation: "IEEE Symposium on Security and Privacy (S&P) 2026"
   ARIES-RFC-0519:
     target: https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0519-goal-codes/README.md
     title: "Aries RFC 0519: Goal Codes"
@@ -344,7 +358,7 @@ Furthermore, because SAIDs and their associated data (including links to other n
 *In toto*, these characteristics mean that no centralized registry is required in any given ecosystem. Data can be fetched directly from its source, across jurisdictional boundaries. Because it is fetched from its source, it comes with consent. Privacy can be tuned. Simple opportunistic, uncoordinated reuse (e.g., in or across the datacenters of TSPs) will arise spontaneously and will dramatically improve the scale and efficiency of the system.
 
 ## Historical analysis
-Normally, a verification algorithm determines whether the passport verifies *now*. (This is the only evaluation that's valid for most JWTs, because they depend on ephemeral key state fetched just in time from `x5u`). However, a VVP passport can do more. Its `kid` header references a KEL for the signer's AID ({{TOIP-KERI}}), and its `evd` header references a dossier issued by either the AID of the AP or the AID of the callee. Thence it connects to a KEL ({{TOIP-KERI}}). These data structures provide key state transitions that are timestamped -- both by the controllers of the AIDs, and by their independent witnesses. Although the timestamps are not guaranteed to be perfectly synchronized, they can be compared to establish rough transition times and to detect duplicity.
+Normally, a verification algorithm determines whether the passport verifies *now*. (This is the only evaluation that's valid for most JWTs, because they depend on ephemeral key state fetched just in time from `x5u`. A measurement of a year of SHAKEN traffic found that 11% of `x5u` URLs already returned no certificate, and showed that a signer can defeat later verification of its own passports simply by removing the certificate after the call {{BROWN-STIR-SHAKEN}}.) However, a VVP passport can do more. Its `kid` header references a KEL for the signer's AID ({{TOIP-KERI}}), and its `evd` header references a dossier issued by either the AID of the AP or the AID of the callee. Thence it connects to a KEL ({{TOIP-KERI}}). These data structures provide key state transitions that are timestamped -- both by the controllers of the AIDs, and by their independent witnesses. Although the timestamps are not guaranteed to be perfectly synchronized, they can be compared to establish rough transition times and to detect duplicity.
 
 Using this historical information, it becomes possible to ask whether a VVP passport would have verified at an arbitrary moment in the past. In such framings, the reference time from the verification algorithm is *then*, not *now*. In the normal case where *then* falls outside a fuzzy range, answers about key state are clear to all observers. In the rare cases where *then* falls inside a fuzzy range, a state transition was underway but not yet universally known, and a verifier can compute the key state (and thence, the outcome of the verification algorithm) according to their preferred interpretation.
 
@@ -377,6 +391,11 @@ Generally understood best practices in cybersecurity will avoid many of these pr
 
 ## Intermediaries that modify signaling
 SBCs and B2BUAs along the call route may strip or fail to forward `Identity` headers, and commonly regenerate SDP bodies. An attacker who controls such an intermediary can suppress a VVP passport, downgrading the call from verified (or failed) to absent. VVP cannot prevent this, but the distinction between absent and failed outcomes ({{outcomes}}) means that suppression can only lower assurance; it cannot make a forged passport verify. Deployments that need end-to-end VVP assurance SHOULD make preservation of `Identity` headers a condition of their interconnect agreements. Callees SHOULD prefer the request-based transport described in {{callee-citing}} over the SDP attribute for the same reason.
+
+## Displayed caller identity
+A SIP INVITE can carry the calling number in more than one header, most importantly `From` and `P-Asserted-Identity`, and the two can disagree. In SHAKEN, the passport is validated against `P-Asserted-Identity`, while many handsets display `From`. A caller can therefore place a call with a number it legitimately controls in `P-Asserted-Identity` and an impersonated number in `From`; every cryptographic check succeeds, and the callee sees the impersonated number beside a positive verification indicator. This has been demonstrated on deployed networks and enterprise handsets {{BROWN-STIR-SHAKEN}}.
+
+VVP is exposed to the same attack, because a valid passport for `orig` says nothing about other headers. Verifiers MUST confirm that `orig` matches every header that carries a calling number, including both `From` and `P-Asserted-Identity`, and MUST treat any disagreement as a channel-binding mismatch, which makes the outcome failed ({{outcomes}}). A TSP or device that renders a VVP outcome to the callee MUST display, as the calling number, exactly the value that was checked against `orig`. If it cannot establish which number was checked, it MUST NOT display a positive verification indicator.
 
 ## Dereferencing OOBIs
 The `kid` and `evd` values of a passport are URLs chosen by whoever built the passport, and a verifier dereferences them before it knows whether the passport is genuine. A verifier that fetches them naively, on every call, exposes itself and others to several attacks:
